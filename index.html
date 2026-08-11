@@ -260,7 +260,7 @@
     font-weight:600;
     font-size:14px;
     border:none;
-    border-radius:9px;
+    border-radius:99px;
     padding:13px 18px;
     cursor:pointer;
     transition:transform .08s, opacity .15s;
@@ -305,11 +305,27 @@
     opacity:.6;
   }
 
-  @media (max-width:480px){
+  /* === ПЕРЕКЛЮЧЕНИЕ РЕКЛАМЫ (DESKTOP / MOBILE) === */
+  .mobile-ad {
+    display: none !important;
+  }
+  .desktop-ad {
+    display: block !important;
+  }
+
+  @media (max-width: 767px) {
     .grid{grid-template-columns:1fr;}
     .transport{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr));}
     .transport button{width:100%;}
     h1{font-size:27px;}
+
+    /* На мобильных скрываем десктопную рекламу и показываем мобильную */
+    .desktop-ad {
+      display: none !important;
+    }
+    .mobile-ad {
+      display: block !important;
+    }
   }
 </style>
 </head>
@@ -317,18 +333,14 @@
 
 <div class="console">
   <header>
-
       <div style="width: 100%; text-align: left" translate="no">
-          <div
-              style="font-size: 32px; font-weight: bold; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);">
-              
+          <div style="font-size: 32px; font-weight: bold; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);">
               <span style="color: #ff6ec4">Z</span><span style="color: #fcb045">E</span><span
                   style="color: #42e695">L</span><span style="color: #7873f5">V</span><span
                   style="color: #ff9a9e">I</span><span style="color: #a6c1ee">A</span><span
                   style="color: #66bb6a"> </span><span style="color: #fdd835">A</span><span
                   style="color: #ff6f61">I</span>
 
-              
               <p>
                   <span>Озвучка текста</span>&nbsp;<span>виртуальным голосом</span>
               </p>
@@ -336,7 +348,6 @@
       </div>
   </header>
   
-
   <canvas id="meter"></canvas>
 
   <div class="panel" data-panel="text">
@@ -349,14 +360,25 @@
       </div>
       <div class="busy-text">Генерация<span class="dot-anim"><span>.</span><span>.</span><span>.</span></span></div>
 
-      <!-- AADS -->
-      <div class="aads-ad">
+      <!-- РЕКЛАМА ВНУТРИ БЛОКА "ГЕНЕРАЦИЯ" -->
+      <!-- Десктопная версия -->
+      <div class="aads-ad desktop-ad">
         <!-- BEGIN AADS AD UNIT 2451765 -->
         <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-                  <iframe data-aa='2451765' src='//acceptable.a-ads.com/2451765/?size=Adaptive'
-                                    style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-                </div>
+          <iframe data-aa='2451765' src='//acceptable.a-ads.com/2451765/?size=Adaptive'
+                  style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        </div>
         <!-- END AADS AD UNIT 2451765 -->
+      </div>
+
+      <!-- Мобильная версия -->
+      <div class="aads-ad mobile-ad">
+        <!-- BEGIN AADS AD UNIT 2451776 -->
+        <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+          <iframe data-aa='2451776' src='//acceptable.a-ads.com/2451776/?size=Adaptive'
+                  style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
+        </div>
+        <!-- END AADS AD UNIT 2451776 -->
       </div>
     </div>
   </div>
@@ -394,41 +416,64 @@
 
   <div class="status" id="status"></div>
 
-  <!-- BEGIN AADS AD UNIT 2451772 -->
-  
-  <div style="position: absolute; z-index: 99999">
-        <input autocomplete="off" type="checkbox" id="aadsstickymsojuc23" hidden />
-        <div style="padding-top: 0; padding-bottom: auto;">
-          <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;bottom:0;left:0;right:0;margin:auto">
-            <label for="aadsstickymsojuc23" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
-              <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-                <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-              </svg>
-            </label>
-            <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;"><iframe data-aa=2451772 src=//acceptable.a-ads.com/2451772/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe></div>
+  <!-- НИЖНЯЯ РЕКЛАМА -->
+  <!-- Десктопная версия -->
+  <div class="desktop-ad">
+    <!-- BEGIN AADS AD UNIT 2451772 -->
+    <div style="position: absolute; z-index: 99999">
+      <input autocomplete="off" type="checkbox" id="aadsstickymsojuc23" hidden />
+      <div style="padding-top: 0; padding-bottom: auto;">
+        <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;bottom:0;left:0;right:0;margin:auto">
+          <label for="aadsstickymsojuc23" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
+            <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
+              <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
+            </svg>
+          </label>
+          <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+            <iframe data-aa=2451772 src=//acceptable.a-ads.com/2451772/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe>
           </div>
-          <style>
-        #aadsstickymsojuc23:checked + div {
-          display: none;
-        }
-      </style>
-      </div></div>
-  
-  <!-- END AADS AD UNIT 2451772 -->
+        </div>
+        <style>
+          #aadsstickymsojuc23:checked + div {
+            display: none;
+          }
+        </style>
+      </div>
+    </div>
+    <!-- END AADS AD UNIT 2451772 -->
+  </div>
+
+  <!-- Мобильная версия (Липкая снизу с крестиком) -->
+  <div class="mobile-ad">
+    <!-- BEGIN AADS AD UNIT 2451777 -->
+    <div style="position: absolute; z-index: 99999">
+      <input autocomplete="off" type="checkbox" id="aadsstickymsoo01ic" hidden />
+      <div style="padding-top: 0; padding-bottom: auto;">
+        <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;bottom:0;left:0;right:0;margin:auto">
+          <label for="aadsstickymsoo01ic" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
+            <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
+              <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
+            </svg>
+          </label>
+          <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+            <iframe data-aa=2451777 src=//acceptable.a-ads.com/2451777/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe>
+          </div>
+        </div>
+        <style>
+          #aadsstickymsoo01ic:checked + div {
+            display: none;
+          }
+        </style>
+      </div>
+    </div>
+    <!-- END AADS AD UNIT 2451777 -->
+  </div>
+
 </div>
 
 <audio id="player" style="display:none;"></audio>
 
 <script>
-// ---------------------------------------------------------------------
-// Конфигурация: адрес backend API. Зашит в код, пользователь его не видит
-// и не может изменить через интерфейс.
-//
-// ЗАГЛУШКА на время локальной разработки — после деплоя backend (Render / HF Spaces)
-// замените это значение на реальный адрес.
-// ---------------------------------------------------------------------
-// const API_BASE = 'http://10.109.241.243:8000';
-// const API_BASE = 'http://192.168.8.6:8000';
 const API_BASE = 'https://tts-backend-77rf.onrender.com';
 
 const els = {
@@ -496,9 +541,7 @@ function setBusy(busy) {
   paramsPanel.classList.toggle('is-busy', busy);
 }
 
-// ---------------------------------------------------------------------
-// Загрузка списка голосов с backend
-// ---------------------------------------------------------------------
+// Загрузка списка голосов
 const FALLBACK_VOICES = ["ru-RU-DmitryNeural", "ru-RU-SvetlanaNeural", "en-US-AvaNeural", "en-US-AndrewNeural"];
 
 function fillSelect(select, options, selected) {
@@ -526,9 +569,7 @@ async function loadVoices() {
   }
 }
 
-// ---------------------------------------------------------------------
 // Генерация
-// ---------------------------------------------------------------------
 els.genBtn.addEventListener('click', async () => {
   const text = els.text.value.trim();
   if (!text) { setStatus('Введите текст.', 'err'); return; }
@@ -586,10 +627,7 @@ els.downloadBtn.addEventListener('click', () => {
   a.remove();
 });
 
-// ---------------------------------------------------------------------
-// Сигнатурный элемент: живой аудио-метр (Web Audio API), синхронный
-// с реальным воспроизведением сгенерированного файла.
-// ---------------------------------------------------------------------
+// Сигнатурный элемент: живой аудио-метр
 const canvas = document.getElementById('meter');
 const ctx2d = canvas.getContext('2d');
 let audioCtx, analyser, source, dataArray, rafId;
@@ -622,7 +660,6 @@ function startMeter() {
 }
 
 function barColor(v) {
-  // зелёный -> янтарный -> красный, как на аналоговом VU-метре
   if (v < 130) return '#35D68A';
   if (v < 190) return '#FFB020';
   return '#FF5D5D';
@@ -636,7 +673,6 @@ function drawMeter() {
   if (analyser && !els.player.paused) {
     analyser.getByteFrequencyData(dataArray);
   } else if (dataArray) {
-    // затухание в состоянии покоя
     for (let i = 0; i < dataArray.length; i++) dataArray[i] = Math.max(0, dataArray[i] - 6);
   } else {
     dataArray = new Uint8Array(48);
@@ -659,9 +695,7 @@ function drawMeter() {
 }
 drawMeter();
 
-// ---------------------------------------------------------------------
 // Инициализация
-// ---------------------------------------------------------------------
 loadVoices();
 </script>
 </body>
