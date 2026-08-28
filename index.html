@@ -1,40 +1,42 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<html lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>ZELVIA  AI VOICE STUDIO</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <style>
   :root{
-    --bg:#0A0B0F;
-    --panel:#14161D;
-    --panel-alt:#1B1E27;
-    --border:#262932;
+    --bg:#1A1B26;
+    --panel:#24283B;
+    --panel-alt:#292E42;
+    --border:#3B4261;
     --text:#ECEDF1;
-    --text-muted:#888C98;
-    --amber:#FFB020;
+    --text-muted:#A9B1D6;
+    --amber:#3B82F6; /* Changed to blue */
     --green:#35D68A;
     --red:#FF5D5D;
+    --theme-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0; -webkit-tap-highlight-color: transparent;}
   body{
     background:
-      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(255,176,32,0.07), transparent),
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(122, 162, 247, 0.1), transparent),
       var(--bg);
     color:var(--text);
     font-family:'Inter',sans-serif;
     min-height:100vh;
     display:flex;
     justify-content:center;
-    padding:48px 20px 80px;
+    padding:24px 16px 200px; /* extra bottom padding for sticky transport and player */
+    transition: var(--theme-transition);
   }
   .console{
     width:100%;
-    max-width:640px;
+    max-width:100%;
   }
   .eyebrow{
     font-family:'JetBrains Mono',monospace;
@@ -66,25 +68,15 @@
     max-width:46ch;
   }
 
-  /* --- signature: live waveform strip --- */
-  #meter{
-    width:100%;
-    height:64px;
-    display:block;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    margin-bottom:22px;
-  }
-
   .panel{
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:14px;
-    padding:20px;
+    border-radius:16px;
+    padding:16px;
     margin-bottom:16px;
     position:relative;
     overflow:hidden;
+    transition: var(--theme-transition);
   }
   .panel.is-busy .busy-overlay{
     opacity:1;
@@ -98,9 +90,9 @@
     align-items:center;
     justify-content:center;
     gap:16px;
-    background:rgba(10, 11, 15, 0.82);
+    background:rgba(26, 27, 38, 0.82);
     backdrop-filter:blur(6px);
-    border-radius:14px;
+    border-radius:16px;
     opacity:0;
     pointer-events:none;
     transition:opacity .25s ease;
@@ -114,8 +106,8 @@
     padding:10px 20px;
     border:1px solid var(--border);
     border-radius:999px;
-    background:rgba(255,176,32,0.06);
-    box-shadow:0 0 28px rgba(255,176,32,0.1);
+    background:rgba(59, 130, 246, 0.06);
+    box-shadow:0 0 28px rgba(59, 130, 246, 0.1);
   }
   .eq-bar{
     width:4px;
@@ -162,21 +154,23 @@
     letter-spacing:0.1em;
     text-transform:uppercase;
     color:var(--text-muted);
-    margin-bottom:10px;
+    margin-bottom:12px;
+    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   textarea{
     width:100%;
-    min-height:150px;
+    min-height:160px;
     resize:vertical;
     background:var(--panel-alt);
     border:1px solid var(--border);
-    border-radius:8px;
+    border-radius:12px;
     color:var(--text);
     font-family:'Inter',sans-serif;
-    font-size:15px;
+    font-size:16px;
     line-height:1.5;
-    padding:14px;
+    padding:16px;
     outline:none;
+    transition: var(--theme-transition);
   }
   textarea:focus{border-color:var(--amber);}
   .charcount{
@@ -184,33 +178,35 @@
     font-family:'JetBrains Mono',monospace;
     font-size:11px;
     color:var(--text-muted);
-    margin-top:6px;
+    margin-top:8px;
   }
 
   .grid{
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:12px;
+    grid-template-columns:1fr;
+    gap:16px;
   }
   .field label{
     display:block;
     font-family:'JetBrains Mono',monospace;
-    font-size:11px;
+    font-size:12px;
     letter-spacing:0.08em;
     text-transform:uppercase;
     color:var(--text-muted);
-    margin-bottom:8px;
+    margin-bottom:10px;
+    transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   select, input[type="number"], input[type="text"], input[type="range"]{
     width:100%;
     background:var(--panel-alt);
     border:1px solid var(--border);
     color:var(--text);
-    border-radius:8px;
-    padding:10px 12px;
+    border-radius:12px;
+    padding:14px 16px;
     font-family:'JetBrains Mono',monospace;
-    font-size:13px;
+    font-size:15px;
     outline:none;
+    transition: var(--theme-transition);
   }
   select:focus, input:focus{border-color:var(--amber);}
   input[type="range"]{
@@ -219,71 +215,81 @@
     background:transparent;
     appearance:none;
     -webkit-appearance:none;
-    height:6px;
+    height:8px;
     border-radius:999px;
     background:linear-gradient(90deg, var(--amber), var(--green));
+    transition: var(--theme-transition);
   }
   input[type="range"]::-webkit-slider-thumb{
     appearance:none;
     -webkit-appearance:none;
-    width:18px;
-    height:18px;
+    width:24px;
+    height:24px;
     border-radius:50%;
     background:var(--text);
     border:2px solid var(--amber);
     cursor:pointer;
   }
   input[type="range"]::-moz-range-thumb{
-    width:18px;
-    height:18px;
+    width:24px;
+    height:24px;
     border-radius:50%;
     background:var(--text);
     border:2px solid var(--amber);
     cursor:pointer;
   }
-  .panel-note{
-    margin-top:10px;
-    color:var(--text-muted);
-    font-family:'JetBrains Mono',monospace;
-    font-size:12px;
-    line-height:1.5;
-  }
 
   .transport{
-    display:flex;
-    gap:10px;
-    margin-top:4px;
-    flex-wrap:wrap;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26, 27, 38, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border);
+    z-index: 100;
+    transition: var(--theme-transition);
   }
   button{
     font-family:'Inter',sans-serif;
     font-weight:600;
-    font-size:14px;
+    font-size:15px;
     border:none;
-    border-radius:99px;
-    padding:13px 18px;
+    border-radius:12px;
+    padding:16px 12px;
     cursor:pointer;
-    transition:transform .08s, opacity .15s;
+    transition: var(--theme-transition), transform .08s, opacity .15s;
+    width: 100%;
   }
-  button:active{transform:scale(0.98);}
+  button:active{transform:scale(0.96); transition: transform 0.08s;}
   button:disabled{opacity:.35;cursor:not-allowed;}
   .btn-primary{
     background:var(--amber);
-    color:#161200;
-    flex:1.4;
+    color:#fff;
   }
   .btn-secondary{
     background:var(--panel-alt);
     border:1px solid var(--border);
     color:var(--text);
-    flex:1;
   }
   .btn-secondary:hover{border-color:var(--green);}
   .btn-ghost{
     background:transparent;
     border:1px solid var(--border);
     color:var(--text-muted);
-    flex:1;
+  }
+  .btn-icon {
+    width: auto;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .status{
@@ -292,228 +298,239 @@
     color:var(--text-muted);
     margin-top:14px;
     min-height:16px;
+    text-align: center;
   }
   .status.err{color:var(--red);}
   .status.ok{color:var(--green);}
 
-  footer{
-    text-align:center;
-    color:var(--text-muted);
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    margin-top:30px;
-    opacity:.6;
-  }
-
-  /* === ПЕРЕКЛЮЧЕНИЕ РЕКЛАМЫ (DESKTOP / MOBILE) === */
-  .mobile-ad {
+  /* === ПЕРЕКЛЮЧЕНИЕ РЕКЛАМЫ === */
+  .desktop-ad {
     display: none !important;
   }
-  .desktop-ad {
+  .mobile-ad {
     display: block !important;
   }
+  
+  .header-container {
+    margin-bottom: 24px;
+  }
+  .header-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+  .header-desc {
+    text-align: left;
+    margin: 8px 0 0 0;
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--text-muted);
+  }
+  .tg-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--panel-alt);
+    padding: 8px 12px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    transition: var(--theme-transition);
+  }
 
-  @media (max-width: 767px) {
-    .grid{grid-template-columns:1fr;}
-    .transport{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr));}
-    .transport button{width:100%;}
-    h1{font-size:27px;}
+  /* Audio Player UI */
+  .player-ui {
+    background: var(--panel-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 12px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    transition: var(--theme-transition);
+  }
+  .player-ui.active {
+    display: flex;
+  }
+  .player-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .player-progress-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .player-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 45px;
+  }
+  .progress-bar {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    transition: var(--theme-transition);
+  }
+  .progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+  }
 
-    /* На мобильных скрываем десктопную рекламу и показываем мобильную */
-    .desktop-ad {
-      display: none !important;
-    }
-    .mobile-ad {
-      display: block !important;
-    }
+  /* History Section */
+  .history-section {
+    margin-top: 32px;
+  }
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .history-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: var(--theme-transition);
+  }
+  .history-info {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  .history-title {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+  .history-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .history-actions {
+    display: flex;
+    gap: 6px;
   }
 </style>
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>
+  body.light-theme {
+    --bg: #F5F7FA;
+    --panel: #FFFFFF;
+    --panel-alt: #F0F2F5;
+    --border: #D1D5DB;
+    --text: #1A1C23;
+    --text-muted: #6B7280;
+    background: var(--bg);
+  }
+  body.light-theme .panel {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+  body.light-theme .tg-link, body.light-theme .btn-secondary {
+    background: #FFFFFF;
+    color: var(--text);
+  }
+  body.light-theme .transport {
+    background: rgba(245, 247, 250, 0.95);
+  }
+  body.light-theme textarea, body.light-theme select, body.light-theme input:not([type="range"]) {
+    background: #FFFFFF;
+    color: var(--text);
+  }
+</style></head>
 <body>
-
 <div class="console">
-  <header>
-	    <div style="width: 100%; text-align: left;" translate="no">
-
-	        <!-- Верхняя строка -->
-	        <div style="
-	            display: flex;
-	            align-items: center;
-	            justify-content: space-between;
-	            font-size: 32px;
-	            font-weight: bold;
-	            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2),
-	                         0 0 10px rgba(255, 255, 255, 0.1);
-	        ">
-
-	            <!-- ZELVIA AI -->
-	            <div>
-	                <span style="color: #ff6ec4">Z</span><span style="color: #fcb045">E</span><span style="color: #42e695">L</span><span style="color: #7873f5">V</span><span style="color: #ff9a9e">I</span><span style="color: #a6c1ee">A</span><span style="color: #66bb6a"> </span><span style="color: #fdd835">A</span><span style="color: #ff6f61">I</span>
-	            </div>
-
-	            <!-- Telegram -->
-	            <a
-	                id="tg_link"
-	                target="_blank"
-	                aria-label="Telegram channel"
-	                href="https://t.me/zelvia_ai"
-	                style="
-	                    display: flex;
-	                    align-items: center;
-	                    gap: 5px;
-	                    text-decoration: none;
-	                    font-size: 12px;
-	                    font-weight: normal;
-	                "
-	            >
-	                <svg xmlns="http://www.w3.org/2000/svg"
-	                     width="22"
-	                     height="22"
-	                     viewBox="0 0 24 24">
-	                    <path fill="#58bced" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38">
-	                    </path>
-	                </svg>
-
-	                <span>Телеграм и тех. поддержка</span>
-	            </a>
-
-	        </div>
-
-	        <!-- Описание -->
-	        <p style="
-	            text-align: center;
-	            margin: 10px 0 0 0;
-	            font-size: 25px;
-	            font-weight: normal;
-	        ">
-	            <span>Озвучка текста</span>&nbsp;<span>виртуальным голосом</span>
-	        </p>
-
-	    </div>
-	</header>
-  
-  <canvas id="meter"></canvas>
-
-  <div class="panel" data-panel="text">
-    <div class="panel-label">Текст</div>
-    <textarea id="text" placeholder="Введите текст для озвучки…" maxlength="6000"></textarea>
-    <div class="charcount"><span id="charcount">0</span> / 6000</div>
-    <div class="busy-overlay">
-      <!-- РЕКЛАМА ВНУТРИ БЛОКА "ГЕНЕРАЦИЯ" -->
-      <!-- Десктопная версия -->
-      <div class="aads-ad desktop-ad">
-        <!-- BEGIN AADS AD UNIT 2451765 -->
-        <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2451765' src='//acceptable.a-ads.com/2451765/?size=Adaptive'
-                  style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe>
-        </div>
-        <!-- END AADS AD UNIT 2451765 -->
-      </div>
-
-      <!-- Мобильная версия -->
-      <div class="aads-ad mobile-ad">
-        <!-- BEGIN AADS AD UNIT 2451776 -->
-        <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-          <iframe data-aa='2451776' src='//acceptable.a-ads.com/2451776/?size=Adaptive'
-                  style='border:0; padding:0; width:70%; height:auto; overflow:hidden;display: block;margin: auto'></iframe> 
-        </div>
-        <!-- END AADS AD UNIT 2451776 -->
-      </div>
-    </div>
-  </div>
-
-  <div class="panel" data-panel="params">
-    <div class="panel-label">Параметры голоса</div>
-    <div class="grid">
-      <div class="field">
-        <label for="voice">Голос</label>
-        <select id="voice"></select>
-      </div>
-      <div class="field">
-        <label for="rate">Скорость <span id="rateValue">+0%</span></label>
-        <input type="range" id="rate" min="-12" max="12" step="1" value="0">
-      </div>
-      <div class="field">
-        <label for="pitch">Тон <span id="pitchValue">+0Hz</span></label>
-        <input type="range" id="pitch" min="-16" max="16" step="1" value="0">
-      </div>
-    </div>
-    <div class="busy-overlay">
-      <div class="busy-visual">
-        <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
-      </div>
-      <div class="busy-text">Генерация<span class="dot-anim"><span>.</span><span>.</span><span>.</span></span></div>
-    </div>
-  </div>
-
-  <div class="transport">
-    <button class="btn-secondary" id="clearBtn" type="button">Очистить</button>
-    <button class="btn-primary" id="genBtn" type="button">Сгенерировать</button>
-    <button class="btn-ghost" id="playBtn" type="button" disabled>Прослушать</button>
-    <button class="btn-ghost" id="downloadBtn" type="button" disabled>Скачать</button>
-  </div>
-
-  <div class="status" id="status"></div>
-
-  <!-- НИЖНЯЯ РЕКЛАМА -->
-  <!-- Десктопная версия -->
-  <div class="desktop-ad">
-    <!-- BEGIN AADS AD UNIT 2451772 -->
-    <div style="position: absolute; z-index: 99999">
-      <input autocomplete="off" type="checkbox" id="aadsstickymsojuc23" hidden />
-      <div style="padding-top: 0; padding-bottom: auto;">
-        <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;bottom:0;left:0;right:0;margin:auto">
-          <label for="aadsstickymsojuc23" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
-            <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-              <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-            </svg>
-          </label>
-          <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-            <iframe data-aa=2451772 src=//acceptable.a-ads.com/2451772/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe>
-          </div>
-        </div>
-        <style>
-          #aadsstickymsojuc23:checked + div {
-            display: none;
-          }
-        </style>
-      </div>
-    </div>
-    <!-- END AADS AD UNIT 2451772 -->
-  </div>
-
-  <!-- Мобильная версия (Липкая снизу с крестиком) -->
-  <div class="mobile-ad">
-    <!-- BEGIN AADS AD UNIT 2451777 -->
-    <!--
-    <div style="position: absolute; z-index: 99999">
-      <input autocomplete="off" type="checkbox" id="aadsstickymsoo01ic" hidden />
-      <div style="padding-top: 0; padding-bottom: auto;">
-        <div style="width:100%;height:auto;position:fixed;text-align:center;font-size:0;bottom:0;left:0;right:0;margin:auto">
-          <label for="aadsstickymsoo01ic" style="top: 50%;transform: translateY(-50%);right:24px;; position: absolute;border-radius: 4px; background: rgba(248, 248, 249, 0.70); padding: 4px;z-index: 99999;cursor:pointer">
-            <svg fill="#000000" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 490">
-              <polygon points="456.851,0 245,212.564 33.149,0 0.708,32.337 212.669,245.004 0.708,457.678 33.149,490 245,277.443 456.851,490 489.292,457.678 277.331,245.004 489.292,32.337 "/>
-            </svg>
-          </label>
-          <div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
-            <iframe data-aa=2451777 src=//acceptable.a-ads.com/2451777/?size=Adaptive style='border:0; padding:0; width:70%; height:auto; overflow:hidden; margin: auto'></iframe>
-          </div>
-        </div>
-        <style>
-          #aadsstickymsoo01ic:checked + div {
-            display: none;
-          }
-        </style>
-      </div>
-    </div>
-    -->
-    <!-- END AADS AD UNIT 2451777 -->
-  </div>
-
+<header class="header-container" translate="no">
+<div class="header-title"><div><span class="" style="background: linear-gradient(90deg, #BB9AF7, #7AA2F7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.05em;">VITORA TTS</span></div><button class="btn-secondary btn-icon" id="themeToggle" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 8px;" title="Переключить тему"><span class="material-symbols-outlined" id="themeIcon">light_mode</span></button><a aria-label="Telegram channel" class="tg-link" href="https://t.me/zelvia_ai" id="tg_link" target="_blank"><svg height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19c-.14.75-.42 1-.68 1.03c-.58.05-1.02-.38-1.58-.75c-.88-.58-1.38-.94-2.23-1.5c-.99-.65-.35-1.01.22-1.59c.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02c-.09.02-1.49.95-4.22 2.79c-.4.27-.76.41-1.08.4c-.36-.01-1.04-.2-1.55-.37c-.63-.2-1.12-.31-1.08-.66c.02-.18.27-.36.74-.55c2.92-1.27 4.86-2.11 5.83-2.51c2.78-1.16 3.35-1.36 3.73-1.36c.08 0 .27.02.39.12c.1.08.13.19.14.27c-.01.06.01.24 0 .38" fill="#58bced"></path></svg><span class="">Поддержка</span></a></div>
+<!-- Описание -->
+<p class="header-desc">Озвучка текста виртуальным голосом</p>
+</header>
+<div class="panel" data-panel="text">
+<div class="panel-label">Текст</div>
+<textarea id="text" maxlength="6000" placeholder="Введите текст для озвучки…"></textarea>
+<div class="charcount"><span class="" id="charcount">20</span> / 6000</div>
+<div class="busy-overlay">
+<div class="aads-ad mobile-ad">
+<div id="frame" style="width: 100%;margin: auto;position: relative; z-index: 99998;">
+<iframe data-aa="2451776" src="//acceptable.a-ads.com/2451776/?size=Adaptive" style="border:0; padding:0; width:100%; height:auto; overflow:hidden;display: block;margin: auto"></iframe>
 </div>
-
-<audio id="player" style="display:none;"></audio>
-
+</div>
+</div>
+</div>
+<div class="panel" data-panel="params">
+<div class="panel-label">Параметры голоса</div>
+<div class="grid">
+<div class="field">
+<label class="" for="voice">Голос</label>
+<select id="voice"><option value="ru-RU-DmitryNeural">Русский Мужской</option><option value="ru-RU-SvetlanaNeural">Русский Женский</option><option value="en-US-AvaNeural">Английский Женский</option><option value="en-US-AndrewNeural">Английский Мужской</option><option value="fr-FR-RemyMultilingualNeural">Французский Мужской</option><option value="fr-FR-VivienneMultilingualNeural">Французский Женский</option><option value="es-ES-AlvaroNeural">Испанский мужской</option><option value="es-ES-ElviraNeural">Испанский женский</option></select>
+</div>
+<div class="field">
+<label class="" for="rate">Скорость <span class="" id="rateValue">+0%</span></label>
+<input id="rate" max="12" min="-12" step="1" type="range" value="0"/>
+</div>
+<div class="field">
+<label class="" for="pitch">Тон <span class="" id="pitchValue">+0Hz</span></label>
+<input id="pitch" max="16" min="-16" step="1" type="range" value="0"/>
+</div>
+</div>
+<div class="busy-overlay">
+<div class="busy-visual">
+<span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+</div>
+<div class="busy-text">Генерация<span class="dot-anim"><span class="">.</span><span class="">.</span><span class="">.</span></span></div>
+</div>
+</div>
+<div class="status ok" id="status">Готово.</div>
+<div class="player-ui active" id="playerUi">
+<div class="player-controls">
+<button class="btn-secondary btn-icon" id="playPauseBtn" type="button">
+<svg fill="currentColor" height="20" id="playIcon" style="display: block;" viewbox="0 0 24 24" width="20"><path d="M8 5v14l11-7z"></path></svg>
+<svg fill="currentColor" height="20" id="pauseIcon" style="display: none;" viewbox="0 0 24 24" width="20"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+</button>
+</div>
+<div class="player-progress-container">
+<span class="player-time" id="currentTime">0:01</span>
+<input class="progress-bar" id="progressBar" max="100" min="0" step="0.1" type="range" value="0"/>
+<span class="player-time" id="durationTime">0:02</span>
+</div>
+</div>
+<div class="history-section">
+<div class="panel-label" style="margin-bottom: 16px;">История</div>
+<div class="history-list" id="historyList"><div class="status">История пуста</div></div>
+</div>
+<div style="height: 30px;"></div>
+</div>
+<div class="transport">
+<button class="btn-secondary" id="clearBtn" type="button">Очистить</button>
+<button class="btn-primary" id="genBtn" type="button">Сгенерировать</button>
+</div>
+<audio id="player" src="blob:null/e24179a9-7ea3-491d-b0be-6944403a6459" style="display:none;"></audio>
 <script>
 const API_BASE = 'https://tts-backend-77rf.onrender.com';
 
@@ -526,16 +543,58 @@ const els = {
   rateValue: document.getElementById('rateValue'),
   pitchValue: document.getElementById('pitchValue'),
   genBtn: document.getElementById('genBtn'),
-  playBtn: document.getElementById('playBtn'),
-  downloadBtn: document.getElementById('downloadBtn'),
   clearBtn: document.getElementById('clearBtn'),
   status: document.getElementById('status'),
   player: document.getElementById('player'),
+  
+  playerUi: document.getElementById('playerUi'),
+  playPauseBtn: document.getElementById('playPauseBtn'),
+  playIcon: document.getElementById('playIcon'),
+  pauseIcon: document.getElementById('pauseIcon'),
+  progressBar: document.getElementById('progressBar'),
+  currentTime: document.getElementById('currentTime'),
+  durationTime: document.getElementById('durationTime'),
+  historyList: document.getElementById('historyList')
 };
 
 const textPanel = document.querySelector('[data-panel="text"]');
 const paramsPanel = document.querySelector('[data-panel="params"]');
 let currentBlobUrl = null;
+let historyData = [];
+
+// Try to load history from localStorage on startup
+try {
+  const savedHistory = localStorage.getItem('zelvia_history');
+  if (savedHistory) {
+    historyData = JSON.parse(savedHistory);
+  }
+} catch (e) {
+  console.error('Failed to load history from localStorage', e);
+}
+
+function addToHistory(text, voice, url) {
+  const newItem = {
+    text: text,
+    voice: voice,
+    url: url,
+    timestamp: new Date().getTime()
+  };
+  // Prepend to show newest first
+  historyData.unshift(newItem);
+  
+  // Keep history manageable (e.g., max 20 items)
+  if (historyData.length > 20) {
+    historyData = historyData.slice(0, 20);
+  }
+  
+  try {
+    localStorage.setItem('zelvia_history', JSON.stringify(historyData));
+  } catch(e) {
+    console.error('Failed to save history', e);
+  }
+  
+  renderHistory();
+}
 
 els.text.addEventListener('input', () => {
   els.charcount.textContent = els.text.value.length;
@@ -582,9 +641,137 @@ function setBusy(busy) {
   paramsPanel.classList.toggle('is-busy', busy);
 }
 
+// Player Logic
+function formatTime(seconds) {
+  if (isNaN(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+els.player.addEventListener('timeupdate', () => {
+  if (!els.player.duration) return;
+  els.currentTime.textContent = formatTime(els.player.currentTime);
+  els.progressBar.value = (els.player.currentTime / els.player.duration) * 100;
+});
+
+els.player.addEventListener('loadedmetadata', () => {
+  els.durationTime.textContent = formatTime(els.player.duration);
+});
+
+els.player.addEventListener('play', () => {
+  els.playIcon.style.display = 'none';
+  els.pauseIcon.style.display = 'block';
+});
+
+els.player.addEventListener('pause', () => {
+  els.playIcon.style.display = 'block';
+  els.pauseIcon.style.display = 'none';
+});
+
+els.player.addEventListener('ended', () => {
+  els.playIcon.style.display = 'block';
+  els.pauseIcon.style.display = 'none';
+  els.progressBar.value = 0;
+  els.currentTime.textContent = "0:00";
+});
+
+els.playPauseBtn.addEventListener('click', () => {
+  if (els.player.paused) {
+    els.player.play();
+  } else {
+    els.player.pause();
+  }
+});
+
+els.progressBar.addEventListener('input', (e) => {
+  if (els.player.duration) {
+    els.player.currentTime = (e.target.value / 100) * els.player.duration;
+  }
+});
+
+function loadAudioToPlayer(blobUrl) {
+  if (currentBlobUrl && currentBlobUrl !== blobUrl && currentBlobUrl.startsWith('blob:')) {
+    // Keep blobs around if they are in history, otherwise careful with revoke
+  }
+  currentBlobUrl = blobUrl;
+  els.player.src = currentBlobUrl;
+  els.playerUi.classList.add('active');
+  els.player.play().catch(e => console.log('Auto-play prevented', e));
+}
+
+// History Logic
+function renderHistory() {
+  els.historyList.innerHTML = '';
+  if (historyData.length === 0) {
+    els.historyList.innerHTML = '<div class="status">История пуста</div>';
+    return;
+  }
+  
+  historyData.forEach((item, index) => {
+    const el = document.createElement('div');
+    el.className = 'history-item';
+    el.innerHTML = `
+      <div class="history-info">
+        <div class="history-title">${item.text.substring(0, 40)}${item.text.length > 40 ? '...' : ''}</div>
+        <div class="history-meta">${new Date(item.timestamp).toLocaleTimeString()} • ${VOICE_LABELS[item.voice] || item.voice}</div>
+      </div>
+      <div class="history-actions">
+        <button class="btn-secondary btn-icon play-hist" data-index="${index}" title="Слушать">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="btn-secondary btn-icon dl-hist" data-index="${index}" title="Скачать">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        </button>
+        <button class="btn-ghost btn-icon del-hist" data-index="${index}" title="Удалить">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+        </button>
+      </div>
+    `;
+    els.historyList.appendChild(el);
+  });
+
+  // Attach events
+  document.querySelectorAll('.play-hist').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = e.currentTarget.getAttribute('data-index');
+      loadAudioToPlayer(historyData[idx].url);
+    });
+  });
+  
+  document.querySelectorAll('.dl-hist').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = e.currentTarget.getAttribute('data-index');
+      const a = document.createElement('a');
+      a.href = historyData[idx].url;
+      a.download = `voice_${historyData[idx].timestamp}.mp3`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+  });
+
+  document.querySelectorAll('.del-hist').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const idx = e.currentTarget.getAttribute('data-index');
+      // If deleting currently playing, clear player
+      if (currentBlobUrl === historyData[idx].url) {
+        els.player.pause();
+        els.playerUi.classList.remove('active');
+        currentBlobUrl = null;
+      }
+      historyData.splice(idx, 1);
+      try {
+        localStorage.setItem('zelvia_history', JSON.stringify(historyData));
+      } catch(err) {}
+      renderHistory();
+    });
+  });
+}
+
 // Загрузка списка голосов
 const FALLBACK_VOICES = ["ru-RU-DmitryNeural", "ru-RU-SvetlanaNeural", "en-US-AvaNeural", "en-US-AndrewNeural", "fr-FR-RemyMultilingualNeural", "fr-FR-VivienneMultilingualNeural", "es-ES-AlvaroNeural", "es-ES-ElviraNeural"];
- 
+
 const VOICE_LABELS = {
   "ru-RU-DmitryNeural": "Русский Мужской",
   "ru-RU-SvetlanaNeural": "Русский Женский",
@@ -592,8 +779,8 @@ const VOICE_LABELS = {
   "en-US-AndrewNeural": "Английский Мужской",
   "fr-FR-RemyMultilingualNeural": "Французский Мужской",
   "fr-FR-VivienneMultilingualNeural": "Французский Женский",
-  "es-ES-AlvaroNeural": "Испанский Мужской",
-  "es-ES-ElviraNeural": "Испанский Женский",
+  "es-ES-AlvaroNeural": "Испанский мужской",
+  "es-ES-ElviraNeural": "Испанский женский",
 };
 
 function fillSelect(select, options, selected) {
@@ -610,6 +797,7 @@ function fillSelect(select, options, selected) {
 async function loadVoices() {
   fillSelect(els.voice, FALLBACK_VOICES);
   syncSliderLabels();
+  renderHistory();
 
   try {
     const res = await fetch(`${API_BASE}/api/voices`);
@@ -628,8 +816,6 @@ els.genBtn.addEventListener('click', async () => {
 
   setBusy(true);
   setStatus('Отправка запроса на генерацию…', '');
-  els.playBtn.disabled = true;
-  els.downloadBtn.disabled = true;
 
   const payload = {
     text,
@@ -649,13 +835,12 @@ els.genBtn.addEventListener('click', async () => {
       throw new Error(errBody.detail || `Ошибка сервера (${res.status})`);
     }
     const blob = await res.blob();
-    if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
-    currentBlobUrl = URL.createObjectURL(blob);
-    els.player.src = currentBlobUrl;
+    const blobUrl = URL.createObjectURL(blob);
+    
+    addToHistory(text, els.voice.value, blobUrl);
+    loadAudioToPlayer(blobUrl);
 
-    els.playBtn.disabled = false;
-    els.downloadBtn.disabled = false;
-    setStatus('Готово. Можно прослушать или скачать файл.', 'ok');
+    setStatus('Готово.', 'ok');
   } catch (e) {
     setStatus('Ошибка: ' + e.message, 'err');
   } finally {
@@ -663,92 +848,30 @@ els.genBtn.addEventListener('click', async () => {
   }
 });
 
-els.playBtn.addEventListener('click', () => {
-  if (!currentBlobUrl) return;
-  els.player.play();
-  startMeter();
-});
-
-els.downloadBtn.addEventListener('click', () => {
-  if (!currentBlobUrl) return;
-  const a = document.createElement('a');
-  a.href = currentBlobUrl;
-  a.download = 'tts_output.mp3';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-});
-
-// Сигнатурный элемент: живой аудио-метр
-const canvas = document.getElementById('meter');
-const ctx2d = canvas.getContext('2d');
-let audioCtx, analyser, source, dataArray, rafId;
-
-function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = canvas.clientWidth * dpr;
-  canvas.height = canvas.clientHeight * dpr;
-  ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-function ensureAudioGraph() {
-  if (audioCtx) return;
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  source = audioCtx.createMediaElementSource(els.player);
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 128;
-  dataArray = new Uint8Array(analyser.frequencyBinCount);
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-}
-
-function startMeter() {
-  ensureAudioGraph();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  cancelAnimationFrame(rafId);
-  drawMeter();
-}
-
-function barColor(v) {
-  if (v < 130) return '#35D68A';
-  if (v < 190) return '#FFB020';
-  return '#FF5D5D';
-}
-
-function drawMeter() {
-  rafId = requestAnimationFrame(drawMeter);
-  const w = canvas.clientWidth, h = canvas.clientHeight;
-  ctx2d.clearRect(0, 0, w, h);
-
-  if (analyser && !els.player.paused) {
-    analyser.getByteFrequencyData(dataArray);
-  } else if (dataArray) {
-    for (let i = 0; i < dataArray.length; i++) dataArray[i] = Math.max(0, dataArray[i] - 6);
-  } else {
-    dataArray = new Uint8Array(48);
-  }
-
-  const bars = 48;
-  const step = Math.floor(dataArray.length / bars) || 1;
-  const gap = 3;
-  const barW = (w - gap * (bars - 1)) / bars;
-
-  for (let i = 0; i < bars; i++) {
-    const v = dataArray[i * step] || 0;
-    const barH = Math.max(3, (v / 255) * (h - 12));
-    const x = i * (barW + gap);
-    const y = h - barH - 6;
-    ctx2d.fillStyle = barColor(v);
-    ctx2d.globalAlpha = 0.9;
-    ctx2d.fillRect(x, y, barW, barH);
-  }
-}
-drawMeter();
 
 // Инициализация
 loadVoices();
 </script>
-</body>
-</html>
+<script>
+(function() {
+  const themeBtn = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const body = document.body;
+
+  themeBtn.addEventListener('click', () => {
+    // Ensure clean class toggle and trigger CSS transitions via a slight delay if necessary, 
+    // though classList.toggle naturally triggers transitions perfectly.
+    requestAnimationFrame(() => {
+      body.classList.toggle('light-theme');
+      const isLight = body.classList.contains('light-theme');
+      themeIcon.textContent = isLight ? 'dark_mode' : 'light_mode';
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+  });
+
+  if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light-theme');
+    themeIcon.textContent = 'dark_mode';
+  }
+})();
+</script></body></html>
