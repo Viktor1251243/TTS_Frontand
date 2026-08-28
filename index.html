@@ -583,14 +583,23 @@ function setBusy(busy) {
 }
 
 // Загрузка списка голосов
-const FALLBACK_VOICES = ["ru-RU-DmitryNeural", "ru-RU-SvetlanaNeural", "en-US-AvaNeural", "en-US-AndrewNeural"];
+const FALLBACK_VOICES = ["ru-RU-DmitryNeural", "ru-RU-SvetlanaNeural", "en-US-AvaNeural", "en-US-AndrewNeural", "fr-FR-RemyMultilingualNeural", "fr-FR-VivienneMultilingualNeural"];
+
+const VOICE_LABELS = {
+  "ru-RU-DmitryNeural": "Русский Мужской",
+  "ru-RU-SvetlanaNeural": "Русский Женский",
+  "en-US-AvaNeural": "Английский Женский",
+  "en-US-AndrewNeural": "Английский Мужской",
+  "fr-FR-RemyMultilingualNeural": "Французский Мужской",
+  "fr-FR-VivienneMultilingualNeural": "Французский Женский",
+};
 
 function fillSelect(select, options, selected) {
   select.innerHTML = '';
   options.forEach(opt => {
     const o = document.createElement('option');
     o.value = opt;
-    o.textContent = opt;
+    o.textContent = VOICE_LABELS[opt] || opt;
     if (opt === selected) o.selected = true;
     select.appendChild(o);
   });
